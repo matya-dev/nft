@@ -1,0 +1,767 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, #0c0c0c 0%, #1a1a1a 100%);
+    color: #e0e0e0;
+    min-height: 100vh;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 15px;
+    padding-bottom: 20px;
+}
+
+/* Загрузка */
+.loading {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #0c0c0c;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.loading-content {
+    text-align: center;
+}
+
+.loading-spinner {
+    width: 50px;
+    height: 50px;
+    border: 3px solid #333;
+    border-top: 3px solid #667eea;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 20px;
+}
+
+.loading-text {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+    color: #fff;
+}
+
+.loading-time {
+    font-size: 0.9em;
+    color: #888;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Верхняя панель */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 0;
+    margin-bottom: 30px;
+    border-bottom: 1px solid #333;
+}
+
+.user-balance {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-weight: bold;
+    color: #fff;
+    font-size: 1.1em;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.level-badge {
+    background: #333;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 0.8em;
+    font-weight: bold;
+    color: #ccc;
+}
+
+/* Главное меню */
+.section {
+    display: none;
+}
+
+.section.active {
+    display: block;
+}
+
+.menu-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.menu-card {
+    background: #1a1a1a;
+    border: 2px solid #333;
+    border-radius: 20px;
+    padding: 30px 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.menu-card:hover {
+    border-color: #667eea;
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+}
+
+.menu-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(102, 126, 234, 0.1), transparent);
+    transition: left 0.5s;
+}
+
+.menu-card:hover::before {
+    left: 100%;
+}
+
+.menu-icon {
+    font-size: 3em;
+    margin-bottom: 15px;
+}
+
+.menu-title {
+    font-size: 1.3em;
+    font-weight: bold;
+    color: #fff;
+    margin-bottom: 8px;
+}
+
+.menu-desc {
+    color: #888;
+    font-size: 0.9em;
+}
+
+/* Рулетка */
+.roulette-container {
+    position: relative;
+    height: 200px;
+    background: #1a1a1a;
+    border: 2px solid #333;
+    border-radius: 15px;
+    margin-bottom: 30px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+}
+
+.roulette-strip {
+    display: flex;
+    gap: 10px;
+    padding: 0 20px;
+    transition: transform 0.1s linear;
+}
+
+.roulette-item {
+    flex-shrink: 0;
+    width: 120px;
+    height: 120px;
+    background: #2a2a2a;
+    border: 2px solid #444;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 2em;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.roulette-item.winning {
+    border-color: #ffd700;
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+    transform: scale(1.1);
+    z-index: 10;
+}
+
+.roulette-item .nft-name {
+    font-size: 0.4em;
+    margin-top: 5px;
+    color: #ccc;
+    text-align: center;
+}
+
+.roulette-item .nft-value {
+    position: absolute;
+    bottom: 5px;
+    font-size: 0.3em;
+    color: #ffd700;
+    background: rgba(0,0,0,0.7);
+    padding: 2px 6px;
+    border-radius: 8px;
+}
+
+.roulette-center {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 4px;
+    height: 100%;
+    background: #ff4444;
+    z-index: 5;
+}
+
+.roulette-center::before {
+    content: '▼';
+    position: absolute;
+    top: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #ff4444;
+    font-size: 1.2em;
+}
+
+.roulette-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.spin-btn {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    padding: 18px;
+    border-radius: 15px;
+    font-size: 1.2em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.spin-btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+}
+
+.spin-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.back-btn {
+    background: #333;
+    color: #fff;
+    border: none;
+    padding: 12px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.back-btn:hover {
+    background: #444;
+}
+
+/* Инвентарь */
+.inventory-header {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.inventory-header h2 {
+    color: #fff;
+    margin-bottom: 10px;
+    font-size: 1.5em;
+}
+
+.inventory-stats {
+    color: #888;
+    font-size: 0.9em;
+}
+
+.inventory-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.inventory-slot {
+    background: #1a1a1a;
+    border: 2px solid #333;
+    border-radius: 15px;
+    padding: 20px 10px;
+    text-align: center;
+    min-height: 120px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.inventory-slot.empty {
+    color: #666;
+    border-style: dashed;
+}
+
+.inventory-slot.has-nft {
+    border-color: #444;
+}
+
+.inventory-slot.has-nft:hover {
+    border-color: #667eea;
+    transform: translateY(-2px);
+}
+
+.nft-image {
+    font-size: 2.5em;
+    margin-bottom: 8px;
+}
+
+.nft-name {
+    font-size: 0.9em;
+    color: #fff;
+    margin-bottom: 5px;
+}
+
+.nft-value {
+    font-size: 0.8em;
+    color: #ffd700;
+    background: rgba(255, 215, 0, 0.1);
+    padding: 3px 8px;
+    border-radius: 10px;
+}
+
+.sell-btn {
+    background: #ff4444;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 0.8em;
+    cursor: pointer;
+    margin-top: 8px;
+    transition: all 0.3s ease;
+}
+
+.sell-btn:hover {
+    background: #ff6666;
+    transform: scale(1.05);
+}
+
+/* Профиль */
+.profile-header {
+    background: #1a1a1a;
+    padding: 20px;
+    border-radius: 15px;
+    margin-bottom: 25px;
+}
+
+.profile-header h2 {
+    text-align: center;
+    color: #fff;
+    margin-bottom: 20px;
+    font-size: 1.5em;
+}
+
+.info-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    padding: 10px 0;
+    border-bottom: 1px solid #333;
+}
+
+.info-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
+.info-item label {
+    color: #888;
+    font-weight: bold;
+}
+
+.profile-input {
+    background: #333;
+    border: 1px solid #555;
+    border-radius: 8px;
+    padding: 8px 12px;
+    color: #fff;
+    flex: 1;
+    margin: 0 10px;
+}
+
+.btn-small {
+    background: #667eea;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: all 0.3s ease;
+}
+
+.btn-small:hover {
+    background: #7688f0;
+}
+
+.profile-stats {
+    margin-bottom: 25px;
+}
+
+.profile-stats h3 {
+    text-align: center;
+    color: #fff;
+    margin-bottom: 20px;
+    font-size: 1.2em;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+}
+
+.stat-card {
+    background: #1a1a1a;
+    padding: 20px 10px;
+    border-radius: 12px;
+    text-align: center;
+    border: 1px solid #333;
+}
+
+.stat-value {
+    font-size: 1.3em;
+    font-weight: bold;
+    color: #fff;
+    margin-bottom: 8px;
+}
+
+.stat-label {
+    font-size: 0.8em;
+    color: #888;
+}
+.roulette-item {
+    flex-shrink: 0;
+    width: 120px;
+    height: 120px;
+    background: #2a2a2a;
+    border: 2px solid #444;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 2em;
+    transition: all 0.3s ease;
+    position: relative;
+    padding: 10px;
+}
+
+.roulette-item img.nft-image {
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+    border-radius: 8px;
+    margin-bottom: 5px;
+}
+
+.roulette-item .nft-name {
+    font-size: 0.8em;
+    margin-top: 5px;
+    color: #ccc;
+    text-align: center;
+    font-weight: bold;
+}
+
+.roulette-item .nft-value {
+    position: absolute;
+    bottom: 5px;
+    font-size: 0.7em;
+    color: #ffd700;
+    background: rgba(0,0,0,0.8);
+    padding: 3px 8px;
+    border-radius: 10px;
+    font-weight: bold;
+}
+
+/* Инвентарь */
+.inventory-slot img.nft-image {
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+    border-radius: 8px;
+    margin-bottom: 8px;
+}
+
+.inventory-slot .nft-name {
+    font-size: 0.9em;
+    color: #fff;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.inventory-slot .nft-value {
+    font-size: 0.8em;
+    color: #ffd700;
+    background: rgba(255, 215, 0, 0.1);
+    padding: 3px 8px;
+    border-radius: 10px;
+    font-weight: bold;
+}
+
+/* ... предыдущие стили ... */
+
+.roulette-item {
+    flex-shrink: 0;
+    width: 120px;
+    height: 120px;
+    background: #2a2a2a;
+    border: 2px solid #444;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 2em;
+    transition: all 0.3s ease;
+    position: relative;
+    padding: 10px;
+}
+
+.roulette-item img.nft-image {
+    width: 70px;
+    height: 70px;
+    object-fit: contain;
+    border-radius: 8px;
+    margin-bottom: 5px;
+}
+
+.roulette-item .nft-name {
+    font-size: 0.8em;
+    margin-top: 5px;
+    color: #ccc;
+    text-align: center;
+    font-weight: bold;
+}
+
+/* Убираем цену в рулетке */
+.roulette-item .nft-value {
+    display: none;
+}
+
+/* ... остальные стили без изменений ... */
+
+/* ... предыдущие стили ... */
+
+/* Стили для уведомлений */
+.notifications {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-width: 300px;
+}
+
+.notification {
+    background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+    border: 2px solid;
+    border-radius: 15px;
+    padding: 15px 20px;
+    color: white;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.5);
+    animation: slideInRight 0.5s ease, slideOutRight 0.5s ease 2.5s forwards;
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+}
+
+.notification::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+    transform: translateX(-100%);
+}
+
+.notification.show::before {
+    animation: shine 2s ease;
+}
+
+.notification.win {
+    border-color: #00ff88;
+    background: linear-gradient(135deg, #1a1a1a 0%, #003322 100%);
+}
+
+.notification.win::after {
+    content: '🎉';
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    font-size: 1.5em;
+    animation: bounce 2s infinite;
+}
+
+.notification.epic {
+    border-color: #9b59b6;
+    background: linear-gradient(135deg, #1a1a1a 0%, #330033 100%);
+}
+
+.notification.legendary {
+    border-color: #f1c40f;
+    background: linear-gradient(135deg, #1a1a1a 0%, #333300 100%);
+    animation: pulse 2s infinite;
+}
+
+.notification-content {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.notification-icon {
+    font-size: 2em;
+    flex-shrink: 0;
+}
+
+.notification-icon img {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+}
+
+.notification-text {
+    flex: 1;
+}
+
+.notification-title {
+    font-weight: bold;
+    font-size: 1.1em;
+    margin-bottom: 5px;
+    color: #fff;
+}
+
+.notification-desc {
+    font-size: 0.9em;
+    color: #ccc;
+    line-height: 1.3;
+}
+
+.notification-close {
+    background: none;
+    border: none;
+    color: #888;
+    font-size: 1.2em;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+}
+
+.notification-close:hover {
+    color: #fff;
+    background: rgba(255,255,255,0.1);
+}
+
+/* Анимации */
+@keyframes slideInRight {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideOutRight {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+    }
+    40% {
+        transform: translateY(-10px);
+    }
+    60% {
+        transform: translateY(-5px);
+    }
+}
+
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(241, 196, 15, 0.4);
+    }
+    70% {
+        box-shadow: 0 0 0 10px rgba(241, 196, 15, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(241, 196, 15, 0);
+    }
+}
+
+@keyframes shine {
+    0% {
+        transform: translateX(-100%);
+    }
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+/* Адаптивность для уведомлений */
+@media (max-width: 768px) {
+    .notifications {
+        top: 10px;
+        right: 10px;
+        left: 10px;
+        max-width: none;
+    }
+    
+    .notification {
+        padding: 12px 15px;
+    }
+}
