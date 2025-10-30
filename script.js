@@ -56,22 +56,117 @@ class NFTRoulette {
     }
 
     // Загрузка NFT коллекции
-    async loadNFTCollection() {
-        this.nftCollection = [
-            { id: 1, name: 'ice', image: 'NFT/ice/ice.gif', value: 75, rarity: 'common' },
-            { id: 2, name: 'calendar', image: 'NFT/calendar/calendar.gif', value: 350, rarity: 'rare' },
-            { id: 3, name: 'cake', image: 'NFT/cake/cake.gif', value: 350, rarity: 'rare' },
-            { id: 4, name: 'lol', image: 'NFT/lol/lol.gif', value: 350, rarity: 'rare' },
-            { id: 5, name: 'happybday', image: 'NFT/happybday/happybday.gif', value: 350, rarity: 'rare' },
-            { id: 6, name: 'socks', image: 'NFT/socks/socks.gif', value: 7500, rarity: 'medium' },
-            { id: 7, name: 'scelet', image: 'NFT/scelet/scelet.gif', value: 7500, rarity: 'medium' },
-            { id: 8, name: 'cat', image: 'NFT/cat/cat.gif', value: 7500, rarity: 'medium' },
-            { id: 9, name: 'cap', image: 'NFT/cap/cap.gif', value: 175000, rarity: 'high' },
-            { id: 10, name: 'cigar', image: 'NFT/cigar/cigar.gif', value: 175000, rarity: 'high' },
-            { id: 11, name: 'shard', image: 'NFT/shard/shard.gif', value: 175000, rarity: 'high' },
-            { id: 12, name: 'pepe', image: 'NFT/pepe/pepe.gif', value: 5000000, rarity: 'legendary' },
-            { id: 13, name: 'hearth', image: 'NFT/hearth/hearth.gif', value: 5000000, rarity: 'legendary' }
-        ];
+// Загрузка NFT коллекции
+async loadNFTCollection() {
+    // Базовый путь - зависит от структуры на GitHub
+    const basePath = './NFT/'; // или 'NFT/' или '/NFT/'
+    
+    this.nftCollection = [
+        // Дефолтные подарки (50-100$)
+        { 
+            id: 1, 
+            name: 'ice', 
+            image: `${basePath}ice/ice.gif`, 
+            value: 75, 
+            rarity: 'common' 
+        },
+        // Редкие подарки (300-400$)
+        { 
+            id: 2, 
+            name: 'calendar', 
+            image: `${basePath}calendar/calendar.gif`, 
+            value: 350, 
+            rarity: 'rare' 
+        },
+        { 
+            id: 3, 
+            name: 'cake', 
+            image: `${basePath}cake/cake.gif`, 
+            value: 350, 
+            rarity: 'rare' 
+        },
+        { 
+            id: 4, 
+            name: 'lol', 
+            image: `${basePath}lol/lol.gif`, 
+            value: 350, 
+            rarity: 'rare' 
+        },
+        { 
+            id: 5, 
+            name: 'happybday', 
+            image: `${basePath}happybday/happybday.gif`, 
+            value: 350, 
+            rarity: 'rare' 
+        },
+        // Средние подарки (5000-10000$)
+        { 
+            id: 6, 
+            name: 'socks', 
+            image: `${basePath}socks/socks.gif`, 
+            value: 7500, 
+            rarity: 'medium' 
+        },
+        { 
+            id: 7, 
+            name: 'scelet', 
+            image: `${basePath}scelet/scelet.gif`, 
+            value: 7500, 
+            rarity: 'medium' 
+        },
+        { 
+            id: 8, 
+            name: 'cat', 
+            image: `${basePath}cat/cat.gif`, 
+            value: 7500, 
+            rarity: 'medium' 
+        },
+        // Высокие подарки (100000-250000$)
+        { 
+            id: 9, 
+            name: 'cap', 
+            image: `${basePath}cap/cap.gif`, 
+            value: 175000, 
+            rarity: 'high' 
+        },
+        { 
+            id: 10, 
+            name: 'cigar', 
+            image: `${basePath}cigar/cigar.gif`, 
+            value: 175000, 
+            rarity: 'high' 
+        },
+        { 
+            id: 11, 
+            name: 'shard', 
+            image: `${basePath}shard/shard.gif`, 
+            value: 175000, 
+            rarity: 'high' 
+        },
+        // Самые дорогие (1000000-10000000$)
+        { 
+            id: 12, 
+            name: 'pepe', 
+            image: `${basePath}pepe/pepe.gif`, 
+            value: 5000000, 
+            rarity: 'legendary' 
+        },
+        { 
+            id: 13, 
+            name: 'hearth', 
+            image: `${basePath}hearth/hearth.gif`, 
+            value: 5000000, 
+            rarity: 'legendary' 
+        }
+    ];
+
+    console.log('NFT коллекция загружена:', this.nftCollection);
+    
+    // Сразу используем fallback, не проверяем изображения
+    this.nftCollection.forEach(nft => {
+        nft.fallback = this.getFallbackEmoji(nft.rarity);
+    });
+}
 
         // Без проверки изображений - сразу используем fallback
         this.nftCollection.forEach(nft => {
