@@ -185,31 +185,35 @@ class NFTRoulette {
         document.getElementById(sectionId).classList.add('active');
     }
 
-    // Настройка рулетки
-    setupRoulette() {
-        const strip = document.getElementById('roulette-strip');
-        strip.innerHTML = '';
+// Настройка рулетки
+setupRoulette() {
+    console.log('Настройка рулетки...');
+    const strip = document.getElementById('roulette-strip');
+    strip.innerHTML = '';
+    
+    const totalItems = 100;
+    for (let i = 0; i < totalItems; i++) {
+        const nft = this.nftCollection[Math.floor(Math.random() * this.nftCollection.length)];
+        const item = document.createElement('div');
+        item.className = 'roulette-item';
+        item.dataset.nftId = nft.id;
         
-        const totalItems = 100;
-        for (let i = 0; i < totalItems; i++) {
-            const nft = this.nftCollection[Math.floor(Math.random() * this.nftCollection.length)];
-            const item = document.createElement('div');
-            item.className = 'roulette-item';
-            item.dataset.nftId = nft.id;
-            
-            // Используем только эмодзи
-            item.innerHTML = `
-                <div class="nft-image">${nft.fallback}</div>
-                <div class="nft-name">${nft.name}</div>
-            `;
-            
-            strip.appendChild(item);
-        }
+        console.log(`Создаем NFT: ${nft.name}, fallback: ${nft.fallback}`);
         
-        this.currentPosition = 0;
-        strip.style.transform = `translateX(${this.currentPosition}px)`;
-        this.currentSpeed = 0;
+        // Пробуем сначала изображение, потом fallback
+        item.innerHTML = `
+            <div class="nft-image">${nft.fallback}</div>
+            <div class="nft-name">${nft.name}</div>
+        `;
+        
+        strip.appendChild(item);
     }
+    
+    this.currentPosition = 0;
+    strip.style.transform = `translateX(${this.currentPosition}px)`;
+    this.currentSpeed = 0;
+    console.log('Рулетка настроена, элементов:', strip.children.length);
+}
 
     // Запуск вращения
     startSpin() {
