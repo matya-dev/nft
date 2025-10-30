@@ -55,123 +55,33 @@ class NFTRoulette {
         return null;
     }
 
-    // Загрузка NFT коллекции
-// Загрузка NFT коллекции
-async loadNFTCollection() {
-    // Базовый путь - зависит от структуры на GitHub
-    const basePath = './NFT/'; // или 'NFT/' или '/NFT/'
-    
-    this.nftCollection = [
-        // Дефолтные подарки (50-100$)
-        { 
-            id: 1, 
-            name: 'ice', 
-            image: `${basePath}ice/ice.gif`, 
-            value: 75, 
-            rarity: 'common' 
-        },
-        // Редкие подарки (300-400$)
-        { 
-            id: 2, 
-            name: 'calendar', 
-            image: `${basePath}calendar/calendar.gif`, 
-            value: 350, 
-            rarity: 'rare' 
-        },
-        { 
-            id: 3, 
-            name: 'cake', 
-            image: `${basePath}cake/cake.gif`, 
-            value: 350, 
-            rarity: 'rare' 
-        },
-        { 
-            id: 4, 
-            name: 'lol', 
-            image: `${basePath}lol/lol.gif`, 
-            value: 350, 
-            rarity: 'rare' 
-        },
-        { 
-            id: 5, 
-            name: 'happybday', 
-            image: `${basePath}happybday/happybday.gif`, 
-            value: 350, 
-            rarity: 'rare' 
-        },
-        // Средние подарки (5000-10000$)
-        { 
-            id: 6, 
-            name: 'socks', 
-            image: `${basePath}socks/socks.gif`, 
-            value: 7500, 
-            rarity: 'medium' 
-        },
-        { 
-            id: 7, 
-            name: 'scelet', 
-            image: `${basePath}scelet/scelet.gif`, 
-            value: 7500, 
-            rarity: 'medium' 
-        },
-        { 
-            id: 8, 
-            name: 'cat', 
-            image: `${basePath}cat/cat.gif`, 
-            value: 7500, 
-            rarity: 'medium' 
-        },
-        // Высокие подарки (100000-250000$)
-        { 
-            id: 9, 
-            name: 'cap', 
-            image: `${basePath}cap/cap.gif`, 
-            value: 175000, 
-            rarity: 'high' 
-        },
-        { 
-            id: 10, 
-            name: 'cigar', 
-            image: `${basePath}cigar/cigar.gif`, 
-            value: 175000, 
-            rarity: 'high' 
-        },
-        { 
-            id: 11, 
-            name: 'shard', 
-            image: `${basePath}shard/shard.gif`, 
-            value: 175000, 
-            rarity: 'high' 
-        },
-        // Самые дорогие (1000000-10000000$)
-        { 
-            id: 12, 
-            name: 'pepe', 
-            image: `${basePath}pepe/pepe.gif`, 
-            value: 5000000, 
-            rarity: 'legendary' 
-        },
-        { 
-            id: 13, 
-            name: 'hearth', 
-            image: `${basePath}hearth/hearth.gif`, 
-            value: 5000000, 
-            rarity: 'legendary' 
-        }
-    ];
+    // Загрузка NFT коллекции - УПРОЩЕННАЯ ВЕРСИЯ
+    async loadNFTCollection() {
+        console.log('Загрузка NFT коллекции...');
+        
+        this.nftCollection = [
+            { id: 1, name: 'ice', value: 75, rarity: 'common' },
+            { id: 2, name: 'calendar', value: 350, rarity: 'rare' },
+            { id: 3, name: 'cake', value: 350, rarity: 'rare' },
+            { id: 4, name: 'lol', value: 350, rarity: 'rare' },
+            { id: 5, name: 'happybday', value: 350, rarity: 'rare' },
+            { id: 6, name: 'socks', value: 7500, rarity: 'medium' },
+            { id: 7, name: 'scelet', value: 7500, rarity: 'medium' },
+            { id: 8, name: 'cat', value: 7500, rarity: 'medium' },
+            { id: 9, name: 'cap', value: 175000, rarity: 'high' },
+            { id: 10, name: 'cigar', value: 175000, rarity: 'high' },
+            { id: 11, name: 'shard', value: 175000, rarity: 'high' },
+            { id: 12, name: 'pepe', value: 5000000, rarity: 'legendary' },
+            { id: 13, name: 'hearth', value: 5000000, rarity: 'legendary' }
+        ];
 
-    console.log('NFT коллекция загружена:', this.nftCollection);
-    
-    // Сразу используем fallback, не проверяем изображения
-    this.nftCollection.forEach(nft => {
-        nft.fallback = this.getFallbackEmoji(nft.rarity);
-    });
-}
-
-        // Без проверки изображений - сразу используем fallback
+        // Только эмодзи, без проверки изображений
         this.nftCollection.forEach(nft => {
             nft.fallback = this.getFallbackEmoji(nft.rarity);
         });
+        
+        console.log('NFT коллекция загружена (используются эмодзи)');
+        return Promise.resolve(); // Сразу возвращаем успешный промис
     }
 
     // Fallback emoji
@@ -188,14 +98,18 @@ async loadNFTCollection() {
 
     // Инициализация
     async init() {
+        // Загружаем NFT без проверок
         await this.loadNFTCollection();
+        
+        // Сразу показываем загрузку
         this.showLoadingScreen();
     }
 
     // Экран загрузки
     showLoadingScreen() {
+        console.log('Запуск экрана загрузки...');
         const startTime = Date.now();
-        const loadingTime = (Math.random() * 2 + 1) * 1000;
+        const loadingTime = 1000; // Фиксированная загрузка 1 секунда
         
         const updateTime = () => {
             const elapsed = (Date.now() - startTime) / 1000;
@@ -213,6 +127,7 @@ async loadNFTCollection() {
 
     // Завершение загрузки
     completeLoading() {
+        console.log('Загрузка завершена, показываем интерфейс');
         document.getElementById('loading').style.display = 'none';
         document.querySelector('.container').style.display = 'block';
         this.setupEventListeners();
@@ -221,6 +136,8 @@ async loadNFTCollection() {
 
     // Настройка обработчиков
     setupEventListeners() {
+        console.log('Настройка обработчиков событий...');
+        
         document.getElementById('roulette-btn').addEventListener('click', () => {
             this.showSection('roulette-section');
             this.setupRoulette();
@@ -256,6 +173,8 @@ async loadNFTCollection() {
         document.getElementById('save-username').addEventListener('click', () => {
             this.saveUsername();
         });
+        
+        console.log('Все обработчики настроены');
     }
 
     // Показать раздел
@@ -278,6 +197,7 @@ async loadNFTCollection() {
             item.className = 'roulette-item';
             item.dataset.nftId = nft.id;
             
+            // Используем только эмодзи
             item.innerHTML = `
                 <div class="nft-image">${nft.fallback}</div>
                 <div class="nft-name">${nft.name}</div>
@@ -396,7 +316,6 @@ async loadNFTCollection() {
         const wonNFT = {
             id: Date.now(),
             name: wonNFTData.name,
-            image: wonNFTData.image,
             value: wonNFTData.value,
             rarity: wonNFTData.rarity,
             fallback: wonNFTData.fallback,
@@ -440,7 +359,7 @@ async loadNFTCollection() {
             description = `${nft.name.toUpperCase()} - ${this.formatPrice(nft.value)} $`;
         }
         
-        this.showNotification(title, description, type, nft.image, nft.fallback);
+        this.showNotification(title, description, type, null, nft.fallback);
     }
 
     // Система уведомлений
@@ -591,5 +510,6 @@ async loadNFTCollection() {
 
 // Запуск приложения
 document.addEventListener('DOMContentLoaded', () => {
+    console.log('DOM загружен, запускаем NFT Roulette...');
     new NFTRoulette();
 });
