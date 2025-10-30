@@ -20,7 +20,6 @@ class NFTRoulette {
             }
         }
         
-        // Создание нового пользователя
         return {
             id: 'user_' + Math.random().toString(36).substr(2, 9),
             username: 'Игрок' + Math.floor(Math.random() * 1000),
@@ -56,144 +55,31 @@ class NFTRoulette {
         return null;
     }
 
-    // Загрузка NFT коллекции с правильными ценами
+    // Загрузка NFT коллекции
     async loadNFTCollection() {
         this.nftCollection = [
-            // Дефолтные подарки (50-100$)
-            { 
-                id: 1, 
-                name: 'ice', 
-                image: 'NFT/ice/ice.gif', 
-                value: this.getRandomPrice(50, 100), 
-                rarity: 'common' 
-            },
-
-            // Редкие подарки (300-400$)
-            { 
-                id: 2, 
-                name: 'calendar', 
-                image: 'NFT/calendar/calendar.gif', 
-                value: this.getRandomPrice(300, 400), 
-                rarity: 'rare' 
-            },
-            { 
-                id: 3, 
-                name: 'cake', 
-                image: 'NFT/cake/cake.gif', 
-                value: this.getRandomPrice(300, 400), 
-                rarity: 'rare' 
-            },
-            { 
-                id: 4, 
-                name: 'lol', 
-                image: 'NFT/lol/lol.gif', 
-                value: this.getRandomPrice(300, 400), 
-                rarity: 'rare' 
-            },
-            { 
-                id: 5, 
-                name: 'happybday', 
-                image: 'NFT/happybday/happybday.gif', 
-                value: this.getRandomPrice(300, 400), 
-                rarity: 'rare' 
-            },
-
-            // Средние подарки (5000-10000$)
-            { 
-                id: 6, 
-                name: 'socks', 
-                image: 'NFT/socks/socks.gif', 
-                value: this.getRandomPrice(5000, 10000), 
-                rarity: 'medium' 
-            },
-            { 
-                id: 7, 
-                name: 'scelet', 
-                image: 'NFT/scelet/scelet.gif', 
-                value: this.getRandomPrice(5000, 10000), 
-                rarity: 'medium' 
-            },
-            { 
-                id: 8, 
-                name: 'cat', 
-                image: 'NFT/cat/cat.gif', 
-                value: this.getRandomPrice(5000, 10000), 
-                rarity: 'medium' 
-            },
-
-            // Высокие подарки (100000-250000$)
-            { 
-                id: 9, 
-                name: 'cap', 
-                image: 'NFT/cap/cap.gif', 
-                value: this.getRandomPrice(100000, 250000), 
-                rarity: 'high' 
-            },
-            { 
-                id: 10, 
-                name: 'cigar', 
-                image: 'NFT/cigar/cigar.gif', 
-                value: this.getRandomPrice(100000, 250000), 
-                rarity: 'high' 
-            },
-            { 
-                id: 11, 
-                name: 'shard', 
-                image: 'NFT/shard/shard.gif', 
-                value: this.getRandomPrice(100000, 250000), 
-                rarity: 'high' 
-            },
-
-            // Самые дорогие (1000000-10000000$)
-            { 
-                id: 12, 
-                name: 'pepe', 
-                image: 'NFT/pepe/pepe.gif', 
-                value: this.getRandomPrice(1000000, 10000000), 
-                rarity: 'legendary' 
-            },
-            { 
-                id: 13, 
-                name: 'hearth', 
-                image: 'NFT/hearth/hearth.gif', 
-                value: this.getRandomPrice(1000000, 10000000), 
-                rarity: 'legendary' 
-            }
+            { id: 1, name: 'ice', image: 'NFT/ice/ice.gif', value: 75, rarity: 'common' },
+            { id: 2, name: 'calendar', image: 'NFT/calendar/calendar.gif', value: 350, rarity: 'rare' },
+            { id: 3, name: 'cake', image: 'NFT/cake/cake.gif', value: 350, rarity: 'rare' },
+            { id: 4, name: 'lol', image: 'NFT/lol/lol.gif', value: 350, rarity: 'rare' },
+            { id: 5, name: 'happybday', image: 'NFT/happybday/happybday.gif', value: 350, rarity: 'rare' },
+            { id: 6, name: 'socks', image: 'NFT/socks/socks.gif', value: 7500, rarity: 'medium' },
+            { id: 7, name: 'scelet', image: 'NFT/scelet/scelet.gif', value: 7500, rarity: 'medium' },
+            { id: 8, name: 'cat', image: 'NFT/cat/cat.gif', value: 7500, rarity: 'medium' },
+            { id: 9, name: 'cap', image: 'NFT/cap/cap.gif', value: 175000, rarity: 'high' },
+            { id: 10, name: 'cigar', image: 'NFT/cigar/cigar.gif', value: 175000, rarity: 'high' },
+            { id: 11, name: 'shard', image: 'NFT/shard/shard.gif', value: 175000, rarity: 'high' },
+            { id: 12, name: 'pepe', image: 'NFT/pepe/pepe.gif', value: 5000000, rarity: 'legendary' },
+            { id: 13, name: 'hearth', image: 'NFT/hearth/hearth.gif', value: 5000000, rarity: 'legendary' }
         ];
 
-        // Проверяем доступность изображений
-        await this.checkNFTImages();
-    }
-
-    // Генерация случайной цены в диапазоне
-    getRandomPrice(min, max) {
-        return Math.floor(Math.random() * (max - min + 1)) + min;
-    }
-
-    // Проверка доступности NFT изображений
-    async checkNFTImages() {
-        for (let nft of this.nftCollection) {
-            try {
-                await this.imageExists(nft.image);
-            } catch (error) {
-                console.warn(`NFT изображение не найдено: ${nft.image}`);
-                // Если файл не найден, используем fallback emoji
-                nft.fallback = this.getFallbackEmoji(nft.rarity);
-            }
-        }
-    }
-
-    // Проверка существования изображения
-    imageExists(url) {
-        return new Promise((resolve, reject) => {
-            const img = new Image();
-            img.onload = () => resolve(true);
-            img.onerror = () => reject(false);
-            img.src = url;
+        // Без проверки изображений - сразу используем fallback
+        this.nftCollection.forEach(nft => {
+            nft.fallback = this.getFallbackEmoji(nft.rarity);
         });
     }
 
-    // Fallback emoji если изображение не найдено
+    // Fallback emoji
     getFallbackEmoji(rarity) {
         const emojis = {
             common: '❄️',
@@ -209,14 +95,12 @@ class NFTRoulette {
     async init() {
         await this.loadNFTCollection();
         this.showLoadingScreen();
-        this.setupEventListeners();
-        this.updateUI();
     }
 
     // Экран загрузки
     showLoadingScreen() {
         const startTime = Date.now();
-        const loadingTime = (Math.random() * 2 + 1) * 1000; // 1-3 секунды
+        const loadingTime = (Math.random() * 2 + 1) * 1000;
         
         const updateTime = () => {
             const elapsed = (Date.now() - startTime) / 1000;
@@ -225,17 +109,23 @@ class NFTRoulette {
             if (elapsed * 1000 < loadingTime) {
                 requestAnimationFrame(updateTime);
             } else {
-                document.getElementById('loading').style.display = 'none';
-                document.querySelector('.container').style.display = 'block';
+                this.completeLoading();
             }
         };
         
         updateTime();
     }
 
+    // Завершение загрузки
+    completeLoading() {
+        document.getElementById('loading').style.display = 'none';
+        document.querySelector('.container').style.display = 'block';
+        this.setupEventListeners();
+        this.updateUI();
+    }
+
     // Настройка обработчиков
     setupEventListeners() {
-        // Главное меню
         document.getElementById('roulette-btn').addEventListener('click', () => {
             this.showSection('roulette-section');
             this.setupRoulette();
@@ -251,7 +141,6 @@ class NFTRoulette {
             this.updateProfile();
         });
 
-        // Кнопки назад
         document.getElementById('back-btn').addEventListener('click', () => {
             this.showSection('main-menu');
             this.stopRoulette();
@@ -265,12 +154,10 @@ class NFTRoulette {
             this.showSection('main-menu');
         });
 
-        // Крутить рулетку
         document.getElementById('spin-btn').addEventListener('click', () => {
             this.startSpin();
         });
 
-        // Сохранение имени
         document.getElementById('save-username').addEventListener('click', () => {
             this.saveUsername();
         });
@@ -289,7 +176,6 @@ class NFTRoulette {
         const strip = document.getElementById('roulette-strip');
         strip.innerHTML = '';
         
-        // Создаем длинную ленту с повторяющимися NFT
         const totalItems = 100;
         for (let i = 0; i < totalItems; i++) {
             const nft = this.nftCollection[Math.floor(Math.random() * this.nftCollection.length)];
@@ -297,23 +183,14 @@ class NFTRoulette {
             item.className = 'roulette-item';
             item.dataset.nftId = nft.id;
             
-            if (nft.fallback) {
-                item.innerHTML = `
-                    <div class="nft-image">${nft.fallback}</div>
-                    <div class="nft-name">${nft.name}</div>
-                `;
-            } else {
-                item.innerHTML = `
-                    <img src="${nft.image}" alt="${nft.name}" class="nft-image" 
-                         onerror="this.style.display='none'; this.nextElementSibling.textContent='${this.getFallbackEmoji(nft.rarity)} ${nft.name}'">
-                    <div class="nft-name">${nft.name}</div>
-                `;
-            }
+            item.innerHTML = `
+                <div class="nft-image">${nft.fallback}</div>
+                <div class="nft-name">${nft.name}</div>
+            `;
             
             strip.appendChild(item);
         }
         
-        // Сбрасываем позицию
         this.currentPosition = 0;
         strip.style.transform = `translateX(${this.currentPosition}px)`;
         this.currentSpeed = 0;
@@ -335,11 +212,9 @@ class NFTRoulette {
         const spinBtn = document.getElementById('spin-btn');
         spinBtn.disabled = true;
         
-        // Запускаем анимацию с большой скоростью
         this.currentSpeed = 50;
         this.animateRoulette();
         
-        // Останавливаем через случайное время (3-6 секунд)
         setTimeout(() => {
             this.stopSpin();
         }, 3000 + Math.random() * 3000);
@@ -349,11 +224,9 @@ class NFTRoulette {
     animateRoulette() {
         const strip = document.getElementById('roulette-strip');
         
-        // Обновляем позицию
         this.currentPosition -= this.currentSpeed;
         strip.style.transform = `translateX(${this.currentPosition}px)`;
         
-        // Если ушли слишком далеко, сбрасываем позицию для бесконечного эффекта
         if (Math.abs(this.currentPosition) > 12000) {
             this.currentPosition = 0;
         }
@@ -367,7 +240,6 @@ class NFTRoulette {
     stopSpin() {
         this.isSpinning = false;
         
-        // Плавное замедление
         const slowDown = () => {
             if (this.currentSpeed > 0) {
                 this.currentSpeed -= 1.5;
@@ -388,7 +260,7 @@ class NFTRoulette {
         slowDown();
     }
 
-    // Остановка рулетки (при выходе)
+    // Остановка рулетки
     stopRoulette() {
         this.isSpinning = false;
         this.currentSpeed = 0;
@@ -401,10 +273,8 @@ class NFTRoulette {
     determineWinner() {
         const strip = document.getElementById('roulette-strip');
         const items = strip.getElementsByClassName('roulette-item');
-        const stripRect = strip.getBoundingClientRect();
         const centerX = window.innerWidth / 2;
         
-        // Находим элемент, который находится ближе всего к центру
         let closestItem = null;
         let minDistance = Infinity;
         
@@ -426,10 +296,8 @@ class NFTRoulette {
         
         if (!wonNFTData) return;
         
-        // Добавляем анимацию выигрыша
         closestItem.classList.add('winning');
         
-        // Создаем выигранный NFT
         const wonNFT = {
             id: Date.now(),
             name: wonNFTData.name,
@@ -440,34 +308,28 @@ class NFTRoulette {
             dateWon: new Date().toISOString()
         };
         
-        // Добавляем в инвентарь
         this.userData.inventory.push(wonNFT);
         this.userData.stats.totalNFTWon++;
         
-        // Обновляем самый дорогой NFT
         if (wonNFT.value > this.userData.stats.mostExpensiveNFT) {
             this.userData.stats.mostExpensiveNFT = wonNFT.value;
         }
         
         this.saveUserData();
         this.updateUI();
-        
-        // Показываем уведомление о выигрыше
         this.showWinNotification(wonNFT);
         
-        // Убираем анимацию через секунду
         setTimeout(() => {
             closestItem.classList.remove('winning');
         }, 1000);
     }
 
-    // Показать уведомление о выигрыше
+    // Уведомление о выигрыше
     showWinNotification(nft) {
         let type = 'win';
         let title = '🎉 Поздравляем!';
         let description = `Вы выиграли ${nft.name.toUpperCase()}!`;
         
-        // Разные стили для разных редкостей
         if (nft.value >= 1000000) {
             type = 'legendary';
             title = '🚀 ЛЕГЕНДАРНО!';
@@ -492,14 +354,9 @@ class NFTRoulette {
         const notification = document.createElement('div');
         notification.className = `notification ${type} show`;
         
-        let iconContent = '';
-        if (image && !fallback) {
-            iconContent = `<img src="${image}" alt="${title}" class="notification-icon">`;
-        } else if (fallback) {
-            iconContent = `<div class="notification-icon">${fallback}</div>`;
-        } else {
-            iconContent = `<div class="notification-icon">🎁</div>`;
-        }
+        let iconContent = fallback ? 
+            `<div class="notification-icon">${fallback}</div>` :
+            `<div class="notification-icon">🎁</div>`;
         
         notification.innerHTML = `
             <div class="notification-content">
@@ -514,13 +371,11 @@ class NFTRoulette {
         
         notifications.appendChild(notification);
         
-        // Обработчик закрытия
         const closeBtn = notification.querySelector('.notification-close');
         closeBtn.addEventListener('click', () => {
             this.removeNotification(notification);
         });
         
-        // Автоматическое закрытие через 4 секунды
         setTimeout(() => {
             if (notification.parentNode) {
                 this.removeNotification(notification);
@@ -528,7 +383,6 @@ class NFTRoulette {
         }, 4000);
     }
 
-    // Удаление уведомления
     removeNotification(notification) {
         notification.style.animation = 'slideOutRight 0.5s ease forwards';
         setTimeout(() => {
@@ -556,34 +410,22 @@ class NFTRoulette {
         grid.innerHTML = '';
         totalNFT.textContent = this.userData.inventory.length;
         
-        // Сортируем NFT по цене (от дорогих к дешевым)
         const sortedInventory = [...this.userData.inventory].sort((a, b) => b.value - a.value);
         
         sortedInventory.forEach((nft, index) => {
             const slot = document.createElement('div');
             slot.className = 'inventory-slot has-nft';
             
-            if (nft.fallback) {
-                slot.innerHTML = `
-                    <div class="nft-image">${nft.fallback}</div>
-                    <div class="nft-name">${nft.name}</div>
-                    <div class="nft-value">${this.formatPrice(nft.value)} $</div>
-                    <button class="sell-btn" data-index="${this.userData.inventory.indexOf(nft)}">Продать</button>
-                `;
-            } else {
-                slot.innerHTML = `
-                    <img src="${nft.image}" alt="${nft.name}" class="nft-image" 
-                         onerror="this.style.display='none'; this.nextElementSibling.innerHTML='${this.getFallbackEmoji(nft.rarity)}<br>${nft.name}'">
-                    <div class="nft-name">${nft.name}</div>
-                    <div class="nft-value">${this.formatPrice(nft.value)} $</div>
-                    <button class="sell-btn" data-index="${this.userData.inventory.indexOf(nft)}">Продать</button>
-                `;
-            }
+            slot.innerHTML = `
+                <div class="nft-image">${nft.fallback}</div>
+                <div class="nft-name">${nft.name}</div>
+                <div class="nft-value">${this.formatPrice(nft.value)} $</div>
+                <button class="sell-btn" data-index="${this.userData.inventory.indexOf(nft)}">Продать</button>
+            `;
             
             grid.appendChild(slot);
         });
         
-        // Добавляем обработчики для кнопок продажи
         document.querySelectorAll('.sell-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 const index = parseInt(e.target.dataset.index);
@@ -591,7 +433,6 @@ class NFTRoulette {
             });
         });
         
-        // Заполняем пустые слоты
         const emptySlots = Math.max(6, 12 - this.userData.inventory.length);
         for (let i = 0; i < emptySlots; i++) {
             const empty = document.createElement('div');
@@ -608,7 +449,6 @@ class NFTRoulette {
             this.userData.balance += nft.value;
             this.userData.inventory.splice(index, 1);
             
-            // Обновляем самый дорогой NFT если нужно
             if (this.userData.inventory.length === 0) {
                 this.userData.stats.mostExpensiveNFT = 0;
             } else if (nft.value === this.userData.stats.mostExpensiveNFT) {
